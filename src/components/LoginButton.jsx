@@ -24,7 +24,7 @@ function LoginButton() {
     }
 
     return (
-        <button className='btn btn-primary' onClick={login}>
+        <button className='btn btn-primary btn-signin' onClick={login}>
             Sign In With Spotify
             <img src={spotifyIcon} className='logo-btn ms-1' />
         </button>

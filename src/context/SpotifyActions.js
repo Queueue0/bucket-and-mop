@@ -67,3 +67,9 @@ export const getUser = async () => {
 
     return response.data
 }
+
+export const getPlaylists = async () => {
+    const response = await spotify.get('/me/playlists')
+
+    return response.data.items
+}

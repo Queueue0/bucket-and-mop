@@ -3,19 +3,20 @@ import { authenticate } from '../context/SpotifyActions'
 import SpotifyContext from '../context/SpotifyContext'
 
 import ErrorMessage from './ErrorMessage'
+import PlaylistSelector from './PlaylistSelector'
 
 function Home() {
-    const { auth_error, dispatch } = useContext(SpotifyContext)
+    const { auth_error, user, dispatch } = useContext(SpotifyContext)
 
-    const onClick = async (e) => {
-        e.preventDefault()
-        const auth = await authenticate()
-        dispatch({
-            type: 'SET_TOKEN_REFRESH',
-            payload: auth,
-        })
-    }
-
-    return <div className='container'>{auth_error && <ErrorMessage />}</div>
+    return (
+        <div className='container'>
+            {auth_error && <ErrorMessage />}
+            {JSON.stringify(user) === '{}' ? (
+                <div>Placeholder</div>
+            ) : (
+                <PlaylistSelector />
+            )}
+        </div>
+    )
 }
 export default Home
