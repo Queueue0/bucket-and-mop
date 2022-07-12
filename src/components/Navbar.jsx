@@ -27,7 +27,7 @@ function Navbar() {
     const logout = (e) => {
         e.preventDefault()
         clearAuth()
-        dispatch({ type: 'CLEAR_TOKENS' })
+        dispatch({ type: 'CLEAR_AUTH' })
     }
 
     return (

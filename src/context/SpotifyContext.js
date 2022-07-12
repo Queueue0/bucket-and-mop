@@ -6,10 +6,7 @@ const SpotifyContext = createContext()
 export const SpotifyProvider = ({ children }) => {
     const initialState = {
         loading: false,
-        logged_in: false,
-        access_token: '',
-        refresh_token: '',
-        user: {},
+        user: JSON.parse(localStorage.getItem('sp_user')) || {},
         auth_error: false,
     }
 

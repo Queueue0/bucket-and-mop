@@ -15,6 +15,7 @@ function LoginButton() {
             const current_user = await getUser()
 
             dispatch({ type: 'SET_USER', payload: { user: current_user } })
+            localStorage.setItem('sp_user', JSON.stringify(current_user))
         } else {
             dispatch({ type: 'SET_AUTH_ERROR' })
             setTimeout(() => {

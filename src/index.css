@@ -25,3 +25,9 @@ code {
 .btn-signin {
   border-radius: 500px;
 }
+
+.list-group-flush {
+  background-color: rgba(25, 20, 20, 255);
+  background-image: none;
+  backdrop-filter: none;
+}

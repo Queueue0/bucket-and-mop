@@ -1,37 +1,45 @@
 import { useContext, useEffect, useState } from 'react'
 import SpotifyContext from '../context/SpotifyContext'
-
 import { getPlaylists } from '../context/SpotifyActions'
 
+import PlaylistList from './PlaylistList'
+
 function PlaylistSelector() {
-    const { user, dispatch } = useContext(SpotifyContext)
+    const { auth, user, loading, dispatch } = useContext(SpotifyContext)
     const [playlists, setPlaylists] = useState({})
 
     useEffect(() => {
         async function fetchPlaylists() {
-            const userPlaylists = await getPlaylists()
+            dispatch({ type: 'SET_LOADING' })
+            const userPlaylists = await getPlaylists(0)
             setPlaylists(userPlaylists)
+            console.log(JSON.stringify(playlists))
+            dispatch({ type: 'UNSET_LOADING' })
         }
 
         fetchPlaylists()
-    }, [user])
+    }, [user, auth])
 
     return (
         <div className='row'>
             <div className='col'>
-                <div className='card border-dark me-3'>
+                <div className='card border-dark me-3 bg-transparent'>
                     <div className='card-header'>Your Playlists</div>
-                    <div className='card-body'>
-                        {JSON.stringify(playlists) === '{}' ? (
-                            <p>No playlists to show</p>
-                        ) : (
-                            <div>
-                                {playlists.map((playlist) => (
-                                    <p key={playlist.id}>{playlist.name}</p>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    {loading ? (
+                        <div className='card-body'>
+                            <p>Loading...</p>
+                        </div>
+                    ) : (
+                        <>
+                            {JSON.stringify(playlists) === '{}' ? (
+                                <div className='card-body'>
+                                    <p>No playlists to show</p>
+                                </div>
+                            ) : (
+                                <PlaylistList playlists={playlists.items} />
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
         </div>
