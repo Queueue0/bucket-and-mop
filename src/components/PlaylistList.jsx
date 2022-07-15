@@ -16,13 +16,43 @@ function PlaylistList({ playlists }) {
                         setActiveId(playlist.id)
                     }}
                 >
-                    <img
-                        src={playlist.images[0].url}
-                        alt={`Album art for ${playlist.name}`}
-                        className='me-3'
-                        style={{ maxHeight: 'auto', maxWidth: '80px' }}
-                    />
-                    {playlist.name}
+                    <div className='row'>
+                        <div className='col-3'>
+                            <img
+                                src={playlist.images[0].url}
+                                alt={`Album art for ${playlist.name}`}
+                                className='me-3'
+                                style={{ maxHeight: 'auto', maxWidth: '80px' }}
+                            />
+                        </div>
+                        <div className='col-9'>
+                            <div className='row'>
+                                <div className='col-9 ps-0'>
+                                    <p className='ps-0 mb-0 fw-bolder text-truncate'>
+                                        {playlist.name}
+                                    </p>
+                                    <p className='ps-0 mt-0 fw-light text-truncate'>
+                                        By {playlist.owner.display_name}
+                                    </p>
+                                </div>
+                                <div className='col-3'>
+                                    <span
+                                        className={`badge ${
+                                            playlist.explicit_count !==
+                                                undefined &&
+                                            playlist.explicit_count === 0
+                                                ? 'bg-success'
+                                                : 'bg-danger'
+                                        } ms-auto`}
+                                    >
+                                        {playlist.explicit_count !== undefined
+                                            ? playlist.explicit_count
+                                            : '...'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </button>
             ))}
         </div>

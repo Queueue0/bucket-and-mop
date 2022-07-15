@@ -1,7 +1,6 @@
 const spotifyreducer = (state, action) => {
     switch (action.type) {
         case 'SET_USER':
-            console.log(action)
             return {
                 ...state,
                 user: action.payload.user,
@@ -11,15 +10,17 @@ const spotifyreducer = (state, action) => {
                 ...state,
                 user: {},
             }
-        case 'SET_AUTH_ERROR':
+        case 'SET_ERROR':
             return {
                 ...state,
                 auth_error: true,
+                error_message: action.payload.message,
             }
-        case 'CLEAR_AUTH_ERROR':
+        case 'CLEAR_ERROR':
             return {
                 ...state,
                 auth_error: false,
+                error_message: '',
             }
         case 'SET_LOADING':
             return {

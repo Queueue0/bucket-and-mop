@@ -1,8 +1,12 @@
+import { useContext } from 'react'
+import SpotifyContext from '../context/SpotifyContext'
+
 function ErrorMessage() {
+    const { error_message } = useContext(SpotifyContext)
+
     return (
         <div className='alert alert-danger'>
-            <strong>Oops!</strong> We weren't able to sign you in to Spotify at
-            this time, please try again later!
+            <strong>Oops!</strong> {error_message}
         </div>
     )
 }
