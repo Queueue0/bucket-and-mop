@@ -23,13 +23,18 @@ function Callback() {
                 // Use code to get the tokens
                 const auth = await getAuth(code)
 
-                // Store tokens and other useful information in localStorage
-                localStorage.setItem('sp_auth', JSON.stringify(auth))
+                if (!(auth instanceof Error)) {
+                    // Store tokens and other useful information in localStorage
+                    localStorage.setItem('sp_auth', JSON.stringify(auth))
+                }
 
                 // Since this is meant to only appear in a popup, close the window right after
                 window.close()
+
+                // If window doesn't close assume we weren't sent here by Spotify and redirect home
+                nav('/')
             } else {
-                // If the code doesn't exist, redirect to home
+                // Otherwise we know we weren't redirected by Spotify, so redirect home
                 nav('/')
             }
         }

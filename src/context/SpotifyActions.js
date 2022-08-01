@@ -74,9 +74,13 @@ export const getAuth = async (code) => {
         code: code,
     })
 
-    const response = await janitor.get(`/get-token?${params}`)
-
-    return { ...response.data }
+    try {
+        const response = await janitor.get(`/get-token?${params}`)
+        return { ...response.data }
+    } catch (err) {
+        console.error(err)
+        return err
+    }
 }
 
 // Refresh the access token and return the callback or an error if something went wrong
@@ -98,6 +102,7 @@ export const refreshAuth = async (callback) => {
             localStorage.setItem('sp_auth', JSON.stringify(refreshed))
             console.log('refreshed auth', new Date())
         } catch (err) {
+            console.error(err)
             return err
         }
 
@@ -127,10 +132,12 @@ export const getUser = async () => {
             if (err.response.status == 401) {
                 response = await refreshAuth(getUser)
             } else {
+                console.log(err)
                 return err
             }
         } else {
             clearAuth()
+            console.error(err)
             return err
         }
     }
@@ -138,11 +145,11 @@ export const getUser = async () => {
 }
 
 // Request and return the user's saved playlists
-export const getPlaylists = async (pageOffset) => {
-    const pageSize = 6
+export const getPlaylists = async (limit, pageOffset) => {
+    const pageSize = limit || 6
     const offset = pageOffset || 0
     const params = new URLSearchParams({
-        offset: offset * pageSize,
+        offset: offset,
         limit: pageSize,
     })
 
@@ -156,9 +163,11 @@ export const getPlaylists = async (pageOffset) => {
             if (err.response.status == 401) {
                 response = await refreshAuth(() => getPlaylists(offset))
             } else {
+                console.log(err)
                 return err
             }
         } else {
+            console.error(err)
             return err
         }
     }
@@ -194,9 +203,11 @@ export const getPlaylistTracks = async (
                     getPlaylistTracks(playlistId, pageSize, offset, fields)
                 )
             } else {
+                console.error(err)
                 return err
             }
         } else {
+            console.error(err)
             return err
         }
     }
